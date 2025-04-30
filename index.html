@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client List Comparison Tool</title>
+    <title>List Comparison Tool</title>
     <style>
         /* Minimalist CSS - no external dependencies */
         :root {
@@ -17,7 +17,7 @@
             --card-bg: #2c3034;
             --border-color: #495057;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             margin: 0;
@@ -26,13 +26,13 @@
             color: var(--text-color);
             line-height: 1.5;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 15px;
         }
-        
+
         header {
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 1rem;
@@ -40,37 +40,37 @@
             display: flex;
             align-items: center;
         }
-        
+
         h1, h2, h3, h4, h5 {
             margin-top: 0;
             margin-bottom: 0.5rem;
         }
-        
+
         .row {
             display: flex;
             flex-wrap: wrap;
             margin: 0 -15px;
         }
-        
+
         .col-6 {
             flex: 0 0 calc(50% - 30px);
             max-width: calc(50% - 30px);
             padding: 0 15px;
         }
-        
+
         .col-12 {
             flex: 0 0 calc(100% - 30px);
             max-width: calc(100% - 30px);
             padding: 0 15px;
         }
-        
+
         @media (max-width: 768px) {
             .col-6 {
                 flex: 0 0 calc(100% - 30px);
                 max-width: calc(100% - 30px);
             }
         }
-        
+
         .card {
             background-color: var(--card-bg);
             border-radius: 4px;
@@ -78,7 +78,7 @@
             margin-bottom: 1.5rem;
             overflow: hidden;
         }
-        
+
         .card-header {
             padding: 0.75rem 1.25rem;
             border-bottom: 1px solid var(--border-color);
@@ -87,20 +87,20 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .card-body {
             padding: 1.25rem;
         }
-        
+
         .form-group {
             margin-bottom: 1rem;
         }
-        
+
         label {
             display: block;
             margin-bottom: 0.5rem;
         }
-        
+
         textarea, select {
             width: 100%;
             padding: 0.5rem;
@@ -112,23 +112,23 @@
             font-size: inherit;
             min-height: 120px;
         }
-        
+
         select {
             min-height: auto;
         }
-        
+
         textarea:focus, select:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
         }
-        
+
         .form-text {
             font-size: 0.875rem;
             color: #adb5bd;
             margin-top: 0.25rem;
         }
-        
+
         .btn {
             display: inline-block;
             font-weight: 500;
@@ -143,56 +143,56 @@
             transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
             text-decoration: none;
         }
-        
+
         .btn-primary {
             color: white;
             background-color: var(--primary-color);
             border: 1px solid var(--primary-color);
         }
-        
+
         .btn-primary:hover {
             background-color: #0b5ed7;
             border-color: #0a58ca;
         }
-        
+
         .btn-secondary {
             color: white;
             background-color: var(--secondary-color);
             border: 1px solid var(--secondary-color);
         }
-        
+
         .btn-secondary:hover {
             background-color: #5c636a;
             border-color: #565e64;
         }
-        
+
         .btn-outline-secondary {
             color: var(--secondary-color);
             background-color: transparent;
             border: 1px solid var(--secondary-color);
         }
-        
+
         .btn-outline-secondary:hover {
             color: white;
             background-color: var(--secondary-color);
         }
-        
+
         .btn-outline-primary {
             color: var(--primary-color);
             background-color: transparent;
             border: 1px solid var(--primary-color);
         }
-        
+
         .btn-outline-primary:hover {
             color: white;
             background-color: var(--primary-color);
         }
-        
+
         .btn:disabled {
             opacity: 0.65;
             cursor: not-allowed;
         }
-        
+
         .badge {
             display: inline-block;
             padding: 0.35em 0.65em;
@@ -205,19 +205,19 @@
             vertical-align: baseline;
             border-radius: 0.25rem;
         }
-        
+
         .badge-primary {
             background-color: var(--primary-color);
         }
-        
+
         .badge-success {
             background-color: var(--success-color);
         }
-        
+
         .d-none {
             display: none !important;
         }
-        
+
         .alert {
             position: relative;
             padding: 0.75rem 1.25rem;
@@ -225,27 +225,27 @@
             border: 1px solid transparent;
             border-radius: 0.25rem;
         }
-        
+
         .alert-danger {
             color: #f8d7da;
             background-color: #842029;
             border-color: #dc3545;
         }
-        
+
         .progress {
             height: 8px;
             overflow: hidden;
             background-color: #343a40;
             border-radius: 0.25rem;
         }
-        
+
         .progress-bar {
             height: 100%;
             width: 0%;
             background-color: var(--primary-color);
             transition: width 0.6s ease;
         }
-        
+
         .spinner {
             display: inline-block;
             width: 1.5rem;
@@ -257,100 +257,100 @@
             animation: spinner 0.75s linear infinite;
             margin-right: 0.5rem;
         }
-        
+
         @keyframes spinner {
             to {
                 transform: rotate(360deg);
             }
         }
-        
+
         @keyframes pulse {
             0% { opacity: 0.6; }
             50% { opacity: 1; }
             100% { opacity: 0.6; }
         }
-        
+
         .processing-pulse {
             animation: pulse 1.5s infinite ease-in-out;
         }
-        
+
         table {
             width: 100%;
             margin-bottom: 1rem;
             color: var(--text-color);
             border-collapse: collapse;
         }
-        
+
         th, td {
             padding: 0.75rem;
             vertical-align: top;
             border-top: 1px solid var(--border-color);
             text-align: left;
         }
-        
+
         thead th {
             vertical-align: bottom;
             border-bottom: 2px solid var(--border-color);
         }
-        
+
         tbody tr:nth-of-type(odd) {
             background-color: rgba(0, 0, 0, 0.05);
         }
-        
+
         .table-responsive {
             display: block;
             width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
-        
+
         .match-score-high {
             color: #10b981;
             font-weight: bold;
         }
-        
+
         .match-score-medium {
             color: #f59e0b;
             font-weight: bold;
         }
-        
+
         .match-score-low {
             color: #ef4444;
             font-weight: bold;
         }
-        
+
         footer {
             margin-top: 3rem;
             padding-top: 1.5rem;
             border-top: 1px solid var(--border-color);
         }
-        
+
         .flex-between {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .btn-sm {
             padding: 0.25rem 0.5rem;
             font-size: 0.875rem;
             line-height: 1.5;
             border-radius: 0.2rem;
         }
-        
+
         .mt-3 {
             margin-top: 1rem;
         }
-        
+
         .mb-3 {
             margin-bottom: 1rem;
         }
-        
+
         .my-4 {
             margin-top: 1.5rem;
             margin-bottom: 1.5rem;
         }
-        
+
         .small {
             font-size: 0.875rem;
         }
@@ -359,22 +359,22 @@
 <body>
     <div class="container">
         <header>
-            <h1 style="font-size: 1.5rem; margin: 0;">Client List Comparison Tool</h1>
+            <h1 style="font-size: 1.5rem; margin: 0;">List Comparison Tool</h1>
         </header>
 
         <div class="row">
             <div class="col-6">
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="h5">Your Client List</h2>
-                        <span id="ourClientCount" class="badge badge-primary">0 clients</span>
+                        <h2 class="h5">List A</h2>
+                        <span id="listACount" class="badge badge-primary">0 items</span>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="ourClientText">Paste your client list (one per line)</label>
-                            <textarea id="ourClientText" rows="10" placeholder="Enter client names, one per line"></textarea>
+                            <label for="listAText">Paste List A (one item per line)</label>
+                            <textarea id="listAText" rows="10" placeholder="Enter items, one per line"></textarea>
                         </div>
-                        <button id="clearOurClients" class="btn btn-outline-secondary btn-sm">
+                        <button id="clearListA" class="btn btn-outline-secondary btn-sm">
                             Clear
                         </button>
                     </div>
@@ -384,15 +384,15 @@
             <div class="col-6">
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="h5">Customer Client List</h2>
-                        <span id="customerClientCount" class="badge badge-primary">0 clients</span>
+                        <h2 class="h5">List B</h2>
+                        <span id="listBCount" class="badge badge-primary">0 items</span>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="customerClientText">Paste customer client list (one per line)</label>
-                            <textarea id="customerClientText" rows="10" placeholder="Enter client names, one per line"></textarea>
+                            <label for="listBText">Paste List B (one item per line)</label>
+                            <textarea id="listBText" rows="10" placeholder="Enter items, one per line"></textarea>
                         </div>
-                        <button id="clearCustomerClients" class="btn btn-outline-secondary btn-sm">
+                        <button id="clearListB" class="btn btn-outline-secondary btn-sm">
                             Clear
                         </button>
                     </div>
@@ -409,25 +409,25 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
-                                <label for="similarityThreshold">Maximum Levenshtein Distance</label>
-                                <select id="similarityThreshold">
-                                    <option value="1">1 - Exact matches only</option>
-                                    <option value="2">2 - Very close matches</option>
-                                    <option value="3" selected>3 - Close matches (recommended)</option>
-                                    <option value="4">4 - More permissive</option>
-                                    <option value="5">5 - Loose matches</option>
-                                </select>
-                                <div class="form-text">Lower values require closer matches</div>
+                                <label for="similarityThreshold">Maximum <a href="https://en.wikipedia.org/wiki/Levenshtein_distance" target="_blank" style="color: #0d6efd; text-decoration: none; border-bottom: 1px dotted #0d6efd;">Levenshtein Distance</a></label>
+                                <div style="display: flex; align-items: center;">
+                                    <!-- <button id="decreaseThreshold" class="btn btn-sm btn-outline-secondary">-</button> -->
+                                    <button id="decreaseThreshold">-</button>
+                                    <input type="number" id="similarityThreshold" value="5" min="1" max="10" style="width: 60px; text-align: center; margin: 0 10px;">
+                                    <!-- <button id="increaseThreshold" class="btn btn-sm btn-outline-secondary">+</button> -->
+                                    <button id="increaseThreshold">+</button>
+                                </div>
                             </div>
                             <div class="col-6" style="text-align: right;">
                                 <button id="compareButton" class="btn btn-primary">
-                                    Compare Client Lists
+                                    Compare Lists
                                 </button>
                                 <button id="resetButton" class="btn btn-secondary">
                                     Reset
                                 </button>
                             </div>
                         </div>
+                        <div class="form-text">Lower values require closer matches. Match is case-insensitive. All white-space and symbols will be removed.</div>
                     </div>
                 </div>
             </div>
@@ -467,8 +467,8 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Your Client</th>
-                                    <th>Customer Client</th>
+                                    <th>List A</th>
+                                    <th>List B</th>
                                     <th>Match Score</th>
                                     <th>Distance</th>
                                 </tr>
@@ -489,10 +489,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Elements
-            const ourClientText = document.getElementById('ourClientText');
-            const ourClientCount = document.getElementById('ourClientCount');
-            const customerClientText = document.getElementById('customerClientText');
-            const customerClientCount = document.getElementById('customerClientCount');
+            const listAText = document.getElementById('listAText');
+            const listACount = document.getElementById('listACount');
+            const listBText = document.getElementById('listBText');
+            const listBCount = document.getElementById('listBCount');
             const compareButton = document.getElementById('compareButton');
             const exportButton = document.getElementById('exportButton');
             const resetButton = document.getElementById('resetButton');
@@ -505,9 +505,11 @@
             const matchCount = document.getElementById('matchCount');
             const errorSection = document.getElementById('errorSection');
             const errorMessage = document.getElementById('errorMessage');
-            const clearOurClients = document.getElementById('clearOurClients');
-            const clearCustomerClients = document.getElementById('clearCustomerClients');
+            const clearListA = document.getElementById('clearListA');
+            const clearListB = document.getElementById('clearListB');
             const performanceStats = document.getElementById('performanceStats');
+            const decreaseThreshold = document.getElementById('decreaseThreshold');
+            const increaseThreshold = document.getElementById('increaseThreshold');
 
             // Variables to store results
             let compareResults = null;
@@ -519,25 +521,38 @@
                 return text.split('\n').filter(line => line.trim().length > 0).length;
             }
 
-            // Function to update client counts
-            function updateClientCounts() {
-                ourClientCount.textContent = `${countNonEmptyLines(ourClientText.value)} clients`;
-                customerClientCount.textContent = `${countNonEmptyLines(customerClientText.value)} clients`;
+            function updateListCounts() {
+                listACount.textContent = `${countNonEmptyLines(listAText.value)} items`;
+                listBCount.textContent = `${countNonEmptyLines(listBText.value)} items`;
             }
 
             // Update counts when text areas change
-            ourClientText.addEventListener('input', updateClientCounts);
-            customerClientText.addEventListener('input', updateClientCounts);
+            listAText.addEventListener('input', updateListCounts);
+            listBText.addEventListener('input', updateListCounts);
 
-            // Clear buttons
-            clearOurClients.addEventListener('click', function() {
-                ourClientText.value = '';
-                updateClientCounts();
+            clearListA.addEventListener('click', function() {
+                listAText.value = '';
+                updateListCounts();
             });
 
-            clearCustomerClients.addEventListener('click', function() {
-                customerClientText.value = '';
-                updateClientCounts();
+            clearListB.addEventListener('click', function() {
+                listBText.value = '';
+                updateListCounts();
+            });
+
+            // Threshold adjustment buttons
+            decreaseThreshold.addEventListener('click', function() {
+                const currentValue = parseInt(similarityThreshold.value);
+                if (currentValue > parseInt(similarityThreshold.min)) {
+                    similarityThreshold.value = currentValue - 1;
+                }
+            });
+
+            increaseThreshold.addEventListener('click', function() {
+                const currentValue = parseInt(similarityThreshold.value);
+                if (currentValue < parseInt(similarityThreshold.max)) {
+                    similarityThreshold.value = currentValue + 1;
+                }
             });
 
             // Function to calculate Levenshtein distance with early termination
@@ -545,12 +560,12 @@
                 // Check for empty strings
                 if (str1.length === 0) return str2.length;
                 if (str2.length === 0) return str1.length;
-                
+
                 // Optimization: if the lengths differ by more than the threshold, we can exit early
                 if (Math.abs(str1.length - str2.length) > maxDistance) {
                     return Infinity;
                 }
-                
+
                 // Initialize the matrix
                 const matrix = [];
                 for (let i = 0; i <= str1.length; i++) {
@@ -559,12 +574,12 @@
                 for (let j = 0; j <= str2.length; j++) {
                     matrix[0][j] = j;
                 }
-                
+
                 // Fill in the matrix
                 let minDistanceInRow;
                 for (let i = 1; i <= str1.length; i++) {
                     minDistanceInRow = Infinity;
-                    
+
                     for (let j = 1; j <= str2.length; j++) {
                         const cost = str1[i-1] === str2[j-1] ? 0 : 1;
                         matrix[i][j] = Math.min(
@@ -572,17 +587,17 @@
                             matrix[i][j-1] + 1,       // Insertion
                             matrix[i-1][j-1] + cost   // Substitution
                         );
-                        
+
                         // Update minimum distance seen in this row
                         minDistanceInRow = Math.min(minDistanceInRow, matrix[i][j]);
                     }
-                    
+
                     // Early termination check
                     if (minDistanceInRow > maxDistance) {
                         return Infinity;
                     }
                 }
-                
+
                 // Return final distance
                 return matrix[str1.length][str2.length];
             }
@@ -591,7 +606,7 @@
             function computeSimilarity(distance, str1, str2) {
                 // Get max length of the two strings
                 const maxLength = Math.max(str1.length, str2.length);
-                
+
                 // Handle edge case
                 if (maxLength === 0) return 100; // Two empty strings are 100% similar
                 return Math.round((1 - (distance / maxLength)) * 100);
@@ -607,91 +622,91 @@
                         .replace(/\s+/g, " ");     // Normalize whitespace to single spaces
             }
 
-            // Function to compare client lists
-            function compareClientLists(ourClients, customerClients, threshold) {
+            // Function to compare lists
+            function compareLists(listA, listB, threshold) {
                 // Remove duplicates
-                const ourClientsSet = [...new Set(ourClients)];
-                const customerClientsSet = [...new Set(customerClients)];
-                
+                const listASet = [...new Set(listA)];
+                const listBSet = [...new Set(listB)];
+
                 const results = [];
-                const totalComparisons = ourClientsSet.length * customerClientsSet.length;
+                const totalComparisons = listASet.length * listBSet.length;
                 let completedComparisons = 0;
-                
+
                 // Process in smaller chunks to keep UI responsive
                 function processChunk(startIdx, chunkSize) {
-                    const endIdx = Math.min(startIdx + chunkSize, ourClientsSet.length);
-                    
+                    const endIdx = Math.min(startIdx + chunkSize, listASet.length);
+
                     for (let i = startIdx; i < endIdx; i++) {
-                        const ourClient = ourClientsSet[i];
-                        const ourClientProc = preprocessString(ourClient);
-                        
-                        for (let j = 0; j < customerClientsSet.length; j++) {
-                            const customerClient = customerClientsSet[j];
-                            const customerClientProc = preprocessString(customerClient);
-                            
+                        const listAItem = listASet[i];
+                        const listAItemProc = preprocessString(listAItem);
+
+                        for (let j = 0; j < listBSet.length; j++) {
+                            const listBItem = listBSet[j];
+                            const listBItemProc = preprocessString(listBItem);
+
                             // Calculate Levenshtein distance with early termination
-                            const distance = levenshteinDistance(ourClientProc, customerClientProc, threshold);
-                            
+                            const distance = levenshteinDistance(listAItemProc, listBItemProc, threshold);
+
                             // If distance is within threshold, save the result
                             if (distance !== Infinity && distance <= threshold) {
-                                const similarity = computeSimilarity(distance, ourClientProc, customerClientProc);
+                                const similarity = computeSimilarity(distance, listAItemProc, listBItemProc);
                                 results.push({
-                                    our_client: ourClient,
-                                    customer_client: customerClient,
+                                    list_a_item: listAItem,
+                                    list_b_item: listBItem,
                                     distance: distance,
                                     similarity: similarity
                                 });
                             }
-                            
+
                             completedComparisons++;
                         }
                     }
-                    
+
                     // Update progress
                     const progress = Math.min(90, (completedComparisons / totalComparisons) * 100);
                     progressBar.style.width = `${progress}%`;
-                    
+
                     // Update status message
                     if (progress < 30) {
-                        processingStatus.textContent = 'Preprocessing client lists...';
+                        processingStatus.textContent = 'Preprocessing lists...';
                     } else if (progress < 60) {
                         processingStatus.textContent = 'Calculating Levenshtein distances...';
                     } else {
                         processingStatus.textContent = 'Finalizing results...';
                     }
-                    
+
                     // Process next chunk or finish
-                    if (endIdx < ourClientsSet.length) {
+                    if (endIdx < listASet.length) {
                         setTimeout(() => processChunk(endIdx, chunkSize), 0);
                     } else {
                         // Sort results by similarity (descending)
                         results.sort((a, b) => b.similarity - a.similarity);
-                        
+
                         // Complete the progress bar
                         progressBar.style.width = '100%';
                         processingStatus.textContent = 'Complete!';
-                        
+
                         setTimeout(() => {
                             processingSection.classList.add('d-none');
-                            
+
                             // Display results
                             displayResults({
                                 results: results,
-                                our_client_count: ourClientsSet.length,
-                                customer_client_count: customerClientsSet.length
+                                list_a_count: listASet.length,
+                                list_b_count: listBSet.length
                             });
-                            
+
                             // Calculate and display performance stats
                             const endTime = performance.now();
                             const processingTime = ((endTime - startTime) / 1000).toFixed(2);
-                            performanceStats.textContent = `Processed in ${processingTime}s: ${ourClientsSet.length} × ${customerClientsSet.length} comparisons`;
-                            
+                            performanceStats.textContent = `Processed in ${processingTime}s: ${listASet.length} × ${listBSet.length} comparisons`;
+
                             // Store results for export
                             compareResults = results;
                         }, 500);
                     }
                 }
-                
+
                 // Start processing in chunks
                 const chunkSize = 10; // Adjust based on performance testing
                 processChunk(0, chunkSize);
@@ -700,39 +715,39 @@
             // Compare button click handler
             compareButton.addEventListener('click', function() {
                 // Validate inputs
-                if (!ourClientText.value.trim()) {
-                    showError('Please provide your client list by pasting text.');
+                if (!listAText.value.trim()) {
+                    showError('Please provide List A by pasting text.');
                     return;
                 }
-                
-                if (!customerClientText.value.trim()) {
-                    showError('Please provide the customer client list by pasting text.');
+
+                if (!listBText.value.trim()) {
+                    showError('Please provide List B by pasting text.');
                     return;
                 }
 
                 // Hide any previous errors and results
                 errorSection.classList.add('d-none');
                 resultsSection.classList.add('d-none');
-                
+
                 // Show processing section
                 processingSection.classList.remove('d-none');
                 progressBar.style.width = '10%';
                 processingStatus.textContent = 'Preparing data for comparison...';
-                
+
                 // Get selected threshold
                 const threshold = parseInt(similarityThreshold.value);
-                
-                // Parse client lists
-                const ourClients = ourClientText.value.split('\n').filter(line => line.trim());
-                const customerClients = customerClientText.value.split('\n').filter(line => line.trim());
-                
+
+                // Parse lists
+                const listA = listAText.value.split('\n').filter(line => line.trim());
+                const listB = listBText.value.split('\n').filter(line => line.trim());
+
                 // Start timing
                 startTime = performance.now();
-                
+
                 // Run comparison
                 setTimeout(() => {
                     try {
-                        compareClientLists(ourClients, customerClients, threshold);
+                        compareLists(listA, listB, threshold);
                     } catch (error) {
                         showError(`An error occurred: ${error.message}`);
                         processingSection.classList.add('d-none');
@@ -744,17 +759,17 @@
             function displayResults(data) {
                 // Enable export button
                 exportButton.disabled = false;
-                
+
                 // Update match count
                 matchCount.textContent = `${data.results.length} matches`;
-                
+
                 // Clear previous results
                 resultsTable.innerHTML = '';
-                
+
                 // Add results to table
                 data.results.forEach(result => {
                     const row = document.createElement('tr');
-                    
+
                     // Determine score class
                     let scoreClass = '';
                     if (result.similarity >= 90) {
@@ -764,20 +779,20 @@
                     } else {
                         scoreClass = 'match-score-low';
                     }
-                    
+
                     row.innerHTML = `
-                        <td>${escapeHtml(result.our_client)}</td>
-                        <td>${escapeHtml(result.customer_client)}</td>
+                        <td>${escapeHtml(result.list_a_item)}</td>
+                        <td>${escapeHtml(result.list_b_item)}</td>
                         <td class="${scoreClass}">${result.similarity}%</td>
                         <td>${result.distance}</td>
                     `;
-                    
+
                     resultsTable.appendChild(row);
                 });
-                
+
                 // Show results section
                 resultsSection.classList.remove('d-none');
-                
+
                 // Scroll to results
                 resultsSection.scrollIntoView({ behavior: 'smooth' });
             }
@@ -795,20 +810,20 @@
                     showError('No results to export.');
                     return;
                 }
-                
+
                 // Create CSV content
-                let csvContent = 'Our Client,Customer Client,Match Score,Levenshtein Distance\n';
-                
+                let csvContent = 'List A,List B,Match Score,Levenshtein Distance\n';
+
                 compareResults.forEach(result => {
-                    csvContent += `"${result.our_client.replace(/"/g, '""')}","${result.customer_client.replace(/"/g, '""')}",${result.similarity},${result.distance}\n`;
+                    csvContent += `"${result.list_a_item.replace(/"/g, '""')}","${result.list_b_item.replace(/"/g, '""')}",${result.similarity},${result.distance}\n`;
                 });
-                
+
                 // Create download link
                 const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.setAttribute('href', url);
-                link.setAttribute('download', 'client_comparison_results.csv');
+                link.setAttribute('download', 'list_comparison_results.csv');
                 link.style.visibility = 'hidden';
                 document.body.appendChild(link);
                 link.click();
@@ -818,20 +833,20 @@
             // Reset button click handler
             resetButton.addEventListener('click', function() {
                 // Clear all inputs
-                ourClientText.value = '';
-                customerClientText.value = '';
-                
+                listAText.value = '';
+                listBText.value = '';
+
                 // Reset counters
-                updateClientCounts();
-                
+                updateListCounts();
+
                 // Hide sections
                 resultsSection.classList.add('d-none');
                 processingSection.classList.add('d-none');
                 errorSection.classList.add('d-none');
-                
+
                 // Disable export button
                 exportButton.disabled = true;
-                
+
                 // Clear results
                 compareResults = null;
                 performanceStats.textContent = '';
@@ -849,7 +864,7 @@
 
             // Add sample data functionality for testing
             function addSampleData() {
-                ourClientText.value = `Acme Corporation
+                listAText.value = `Acme Corporation
 Microsoft
 Apple Inc.
 Google LLC
@@ -860,7 +875,7 @@ Tesla Motors
 Walmart Stores
 Target Corporation`;
 
-                customerClientText.value = `ACME Corp
+                listBText.value = `ACME Corp
 MicroSoft
 Apple Incorporated
 Googol LLC
@@ -871,7 +886,7 @@ Telsa Motor Company
 WalMart
 Target Corp.`;
 
-                updateClientCounts();
+                updateListCounts();
             }
 
             // Add a hidden keyboard shortcut (Alt+S) to add sample data
@@ -883,7 +898,7 @@ Target Corp.`;
             window.addSampleData = addSampleData
 
             // Initialize
-            updateClientCounts();
+            updateListCounts();
         });
     </script>
 </body>
