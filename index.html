@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client List Comparison Tool</title>
+    <style>
+        /* Minimalist CSS - no external dependencies */
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --bg-color: #212529;
+            --text-color: #f8f9fa;
+            --card-bg: #2c3034;
+            --border-color: #495057;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+        
+        .col-6 {
+            flex: 0 0 calc(50% - 30px);
+            max-width: calc(50% - 30px);
+            padding: 0 15px;
+        }
+        
+        .col-12 {
+            flex: 0 0 calc(100% - 30px);
+            max-width: calc(100% - 30px);
+            padding: 0 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .col-6 {
+                flex: 0 0 calc(100% - 30px);
+                max-width: calc(100% - 30px);
+            }
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-body {
+            padding: 1.25rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        textarea, select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: #343a40;
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: inherit;
+            min-height: 120px;
+        }
+        
+        select {
+            min-height: auto;
+        }
+        
+        textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+        
+        .form-text {
+            font-size: 0.875rem;
+            color: #adb5bd;
+            margin-top: 0.25rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            color: white;
+            background-color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+        }
+        
+        .btn-secondary {
+            color: white;
+            background-color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5c636a;
+            border-color: #565e64;
+        }
+        
+        .btn-outline-secondary {
+            color: var(--secondary-color);
+            background-color: transparent;
+            border: 1px solid var(--secondary-color);
+        }
+        
+        .btn-outline-secondary:hover {
+            color: white;
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+        }
+        
+        .btn-outline-primary:hover {
+            color: white;
+            background-color: var(--primary-color);
+        }
+        
+        .btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
+            font-weight: 700;
+            line-height: 1;
+            color: white;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+        }
+        
+        .badge-primary {
+            background-color: var(--primary-color);
+        }
+        
+        .badge-success {
+            background-color: var(--success-color);
+        }
+        
+        .d-none {
+            display: none !important;
+        }
+        
+        .alert {
+            position: relative;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+        }
+        
+        .alert-danger {
+            color: #f8d7da;
+            background-color: #842029;
+            border-color: #dc3545;
+        }
+        
+        .progress {
+            height: 8px;
+            overflow: hidden;
+            background-color: #343a40;
+            border-radius: 0.25rem;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--primary-color);
+            transition: width 0.6s ease;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            vertical-align: middle;
+            border: 0.2em solid currentColor;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spinner 0.75s linear infinite;
+            margin-right: 0.5rem;
+        }
+        
+        @keyframes spinner {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .processing-pulse {
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        
+        table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid var(--border-color);
+            text-align: left;
+        }
+        
+        thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .table-responsive {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .match-score-high {
+            color: #10b981;
+            font-weight: bold;
+        }
+        
+        .match-score-medium {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        
+        .match-score-low {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+        }
+        
+        .mt-3 {
+            margin-top: 1rem;
+        }
+        
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+        
+        .my-4 {
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .small {
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 style="font-size: 1.5rem; margin: 0;">Client List Comparison Tool</h1>
+        </header>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="h5">Your Client List</h2>
+                        <span id="ourClientCount" class="badge badge-primary">0 clients</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="ourClientText">Paste your client list (one per line)</label>
+                            <textarea id="ourClientText" rows="10" placeholder="Enter client names, one per line"></textarea>
+                        </div>
+                        <button id="clearOurClients" class="btn btn-outline-secondary btn-sm">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="h5">Customer Client List</h2>
+                        <span id="customerClientCount" class="badge badge-primary">0 clients</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="customerClientText">Paste customer client list (one per line)</label>
+                            <textarea id="customerClientText" rows="10" placeholder="Enter client names, one per line"></textarea>
+                        </div>
+                        <button id="clearCustomerClients" class="btn btn-outline-secondary btn-sm">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="h5">Comparison Settings</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="similarityThreshold">Maximum Levenshtein Distance</label>
+                                <select id="similarityThreshold">
+                                    <option value="1">1 - Exact matches only</option>
+                                    <option value="2">2 - Very close matches</option>
+                                    <option value="3" selected>3 - Close matches (recommended)</option>
+                                    <option value="4">4 - More permissive</option>
+                                    <option value="5">5 - Loose matches</option>
+                                </select>
+                                <div class="form-text">Lower values require closer matches</div>
+                            </div>
+                            <div class="col-6" style="text-align: right;">
+                                <button id="compareButton" class="btn btn-primary">
+                                    Compare Client Lists
+                                </button>
+                                <button id="resetButton" class="btn btn-secondary">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Processing section -->
+        <div id="processingSection" class="my-4 d-none">
+            <div class="card">
+                <div class="card-body">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <div class="spinner"></div>
+                        <h3 class="processing-pulse" id="processingStatus" style="margin: 0;">Processing...</h3>
+                    </div>
+                    <div class="progress">
+                        <div id="progressBar" class="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error section -->
+        <div id="errorSection" class="my-4 d-none">
+            <div class="alert alert-danger">
+                <span id="errorMessage">Error message goes here</span>
+            </div>
+        </div>
+
+        <!-- Results section -->
+        <div id="resultsSection" class="my-4 d-none">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="h5">Results</h2>
+                    <span id="matchCount" class="badge badge-success">0 matches</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Your Client</th>
+                                    <th>Customer Client</th>
+                                    <th>Match Score</th>
+                                    <th>Distance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsTable">
+                                <!-- Results will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button id="exportButton" class="btn btn-outline-primary mt-3" disabled>
+                        Export Results (CSV)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const ourClientText = document.getElementById('ourClientText');
+            const ourClientCount = document.getElementById('ourClientCount');
+            const customerClientText = document.getElementById('customerClientText');
+            const customerClientCount = document.getElementById('customerClientCount');
+            const compareButton = document.getElementById('compareButton');
+            const exportButton = document.getElementById('exportButton');
+            const resetButton = document.getElementById('resetButton');
+            const similarityThreshold = document.getElementById('similarityThreshold');
+            const processingSection = document.getElementById('processingSection');
+            const progressBar = document.getElementById('progressBar');
+            const processingStatus = document.getElementById('processingStatus');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsTable = document.getElementById('resultsTable');
+            const matchCount = document.getElementById('matchCount');
+            const errorSection = document.getElementById('errorSection');
+            const errorMessage = document.getElementById('errorMessage');
+            const clearOurClients = document.getElementById('clearOurClients');
+            const clearCustomerClients = document.getElementById('clearCustomerClients');
+            const performanceStats = document.getElementById('performanceStats');
+
+            // Variables to store results
+            let compareResults = null;
+            let startTime = 0;
+
+            // Helper function to count non-empty lines
+            function countNonEmptyLines(text) {
+                if (!text) return 0;
+                return text.split('\n').filter(line => line.trim().length > 0).length;
+            }
+
+            // Function to update client counts
+            function updateClientCounts() {
+                ourClientCount.textContent = `${countNonEmptyLines(ourClientText.value)} clients`;
+                customerClientCount.textContent = `${countNonEmptyLines(customerClientText.value)} clients`;
+            }
+
+            // Update counts when text areas change
+            ourClientText.addEventListener('input', updateClientCounts);
+            customerClientText.addEventListener('input', updateClientCounts);
+
+            // Clear buttons
+            clearOurClients.addEventListener('click', function() {
+                ourClientText.value = '';
+                updateClientCounts();
+            });
+
+            clearCustomerClients.addEventListener('click', function() {
+                customerClientText.value = '';
+                updateClientCounts();
+            });
+
+            // Function to calculate Levenshtein distance with early termination
+            function levenshteinDistance(str1, str2, maxDistance) {
+                // Check for empty strings
+                if (str1.length === 0) return str2.length;
+                if (str2.length === 0) return str1.length;
+                
+                // Optimization: if the lengths differ by more than the threshold, we can exit early
+                if (Math.abs(str1.length - str2.length) > maxDistance) {
+                    return Infinity;
+                }
+                
+                // Initialize the matrix
+                const matrix = [];
+                for (let i = 0; i <= str1.length; i++) {
+                    matrix[i] = [i];
+                }
+                for (let j = 0; j <= str2.length; j++) {
+                    matrix[0][j] = j;
+                }
+                
+                // Fill in the matrix
+                let minDistanceInRow;
+                for (let i = 1; i <= str1.length; i++) {
+                    minDistanceInRow = Infinity;
+                    
+                    for (let j = 1; j <= str2.length; j++) {
+                        const cost = str1[i-1] === str2[j-1] ? 0 : 1;
+                        matrix[i][j] = Math.min(
+                            matrix[i-1][j] + 1,       // Deletion
+                            matrix[i][j-1] + 1,       // Insertion
+                            matrix[i-1][j-1] + cost   // Substitution
+                        );
+                        
+                        // Update minimum distance seen in this row
+                        minDistanceInRow = Math.min(minDistanceInRow, matrix[i][j]);
+                    }
+                    
+                    // Early termination check
+                    if (minDistanceInRow > maxDistance) {
+                        return Infinity;
+                    }
+                }
+                
+                // Return final distance
+                return matrix[str1.length][str2.length];
+            }
+
+            // Function to compute similarity percentage
+            function computeSimilarity(distance, str1, str2) {
+                // Get max length of the two strings
+                const maxLength = Math.max(str1.length, str2.length);
+                
+                // Handle edge case
+                if (maxLength === 0) return 100; // Two empty strings are 100% similar
+                return Math.round((1 - (distance / maxLength)) * 100);
+            }
+
+            // Function to preprocess string - strip whitespace and punctuation
+            function preprocessString(s) {
+                if (!s) return "";
+                // Convert to lowercase, trim spaces, and remove punctuation
+                return s.toLowerCase()
+                        .trim()
+                        .replace(/[^\w\s]|_/g, "") // Remove punctuation and underscores
+                        .replace(/\s+/g, " ");     // Normalize whitespace to single spaces
+            }
+
+            // Function to compare client lists
+            function compareClientLists(ourClients, customerClients, threshold) {
+                // Remove duplicates
+                const ourClientsSet = [...new Set(ourClients)];
+                const customerClientsSet = [...new Set(customerClients)];
+                
+                const results = [];
+                const totalComparisons = ourClientsSet.length * customerClientsSet.length;
+                let completedComparisons = 0;
+                
+                // Process in smaller chunks to keep UI responsive
+                function processChunk(startIdx, chunkSize) {
+                    const endIdx = Math.min(startIdx + chunkSize, ourClientsSet.length);
+                    
+                    for (let i = startIdx; i < endIdx; i++) {
+                        const ourClient = ourClientsSet[i];
+                        const ourClientProc = preprocessString(ourClient);
+                        
+                        for (let j = 0; j < customerClientsSet.length; j++) {
+                            const customerClient = customerClientsSet[j];
+                            const customerClientProc = preprocessString(customerClient);
+                            
+                            // Calculate Levenshtein distance with early termination
+                            const distance = levenshteinDistance(ourClientProc, customerClientProc, threshold);
+                            
+                            // If distance is within threshold, save the result
+                            if (distance !== Infinity && distance <= threshold) {
+                                const similarity = computeSimilarity(distance, ourClientProc, customerClientProc);
+                                results.push({
+                                    our_client: ourClient,
+                                    customer_client: customerClient,
+                                    distance: distance,
+                                    similarity: similarity
+                                });
+                            }
+                            
+                            completedComparisons++;
+                        }
+                    }
+                    
+                    // Update progress
+                    const progress = Math.min(90, (completedComparisons / totalComparisons) * 100);
+                    progressBar.style.width = `${progress}%`;
+                    
+                    // Update status message
+                    if (progress < 30) {
+                        processingStatus.textContent = 'Preprocessing client lists...';
+                    } else if (progress < 60) {
+                        processingStatus.textContent = 'Calculating Levenshtein distances...';
+                    } else {
+                        processingStatus.textContent = 'Finalizing results...';
+                    }
+                    
+                    // Process next chunk or finish
+                    if (endIdx < ourClientsSet.length) {
+                        setTimeout(() => processChunk(endIdx, chunkSize), 0);
+                    } else {
+                        // Sort results by similarity (descending)
+                        results.sort((a, b) => b.similarity - a.similarity);
+                        
+                        // Complete the progress bar
+                        progressBar.style.width = '100%';
+                        processingStatus.textContent = 'Complete!';
+                        
+                        setTimeout(() => {
+                            processingSection.classList.add('d-none');
+                            
+                            // Display results
+                            displayResults({
+                                results: results,
+                                our_client_count: ourClientsSet.length,
+                                customer_client_count: customerClientsSet.length
+                            });
+                            
+                            // Calculate and display performance stats
+                            const endTime = performance.now();
+                            const processingTime = ((endTime - startTime) / 1000).toFixed(2);
+                            performanceStats.textContent = `Processed in ${processingTime}s: ${ourClientsSet.length} × ${customerClientsSet.length} comparisons`;
+                            
+                            // Store results for export
+                            compareResults = results;
+                        }, 500);
+                    }
+                }
+                
+                // Start processing in chunks
+                const chunkSize = 10; // Adjust based on performance testing
+                processChunk(0, chunkSize);
+            }
+
+            // Compare button click handler
+            compareButton.addEventListener('click', function() {
+                // Validate inputs
+                if (!ourClientText.value.trim()) {
+                    showError('Please provide your client list by pasting text.');
+                    return;
+                }
+                
+                if (!customerClientText.value.trim()) {
+                    showError('Please provide the customer client list by pasting text.');
+                    return;
+                }
+
+                // Hide any previous errors and results
+                errorSection.classList.add('d-none');
+                resultsSection.classList.add('d-none');
+                
+                // Show processing section
+                processingSection.classList.remove('d-none');
+                progressBar.style.width = '10%';
+                processingStatus.textContent = 'Preparing data for comparison...';
+                
+                // Get selected threshold
+                const threshold = parseInt(similarityThreshold.value);
+                
+                // Parse client lists
+                const ourClients = ourClientText.value.split('\n').filter(line => line.trim());
+                const customerClients = customerClientText.value.split('\n').filter(line => line.trim());
+                
+                // Start timing
+                startTime = performance.now();
+                
+                // Run comparison
+                setTimeout(() => {
+                    try {
+                        compareClientLists(ourClients, customerClients, threshold);
+                    } catch (error) {
+                        showError(`An error occurred: ${error.message}`);
+                        processingSection.classList.add('d-none');
+                    }
+                }, 100);
+            });
+
+            // Function to display results
+            function displayResults(data) {
+                // Enable export button
+                exportButton.disabled = false;
+                
+                // Update match count
+                matchCount.textContent = `${data.results.length} matches`;
+                
+                // Clear previous results
+                resultsTable.innerHTML = '';
+                
+                // Add results to table
+                data.results.forEach(result => {
+                    const row = document.createElement('tr');
+                    
+                    // Determine score class
+                    let scoreClass = '';
+                    if (result.similarity >= 90) {
+                        scoreClass = 'match-score-high';
+                    } else if (result.similarity >= 70) {
+                        scoreClass = 'match-score-medium';
+                    } else {
+                        scoreClass = 'match-score-low';
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${escapeHtml(result.our_client)}</td>
+                        <td>${escapeHtml(result.customer_client)}</td>
+                        <td class="${scoreClass}">${result.similarity}%</td>
+                        <td>${result.distance}</td>
+                    `;
+                    
+                    resultsTable.appendChild(row);
+                });
+                
+                // Show results section
+                resultsSection.classList.remove('d-none');
+                
+                // Scroll to results
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // Function to show error
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorSection.classList.remove('d-none');
+                processingSection.classList.add('d-none');
+            }
+
+            // Export button click handler
+            exportButton.addEventListener('click', function() {
+                if (!compareResults || compareResults.length === 0) {
+                    showError('No results to export.');
+                    return;
+                }
+                
+                // Create CSV content
+                let csvContent = 'Our Client,Customer Client,Match Score,Levenshtein Distance\n';
+                
+                compareResults.forEach(result => {
+                    csvContent += `"${result.our_client.replace(/"/g, '""')}","${result.customer_client.replace(/"/g, '""')}",${result.similarity},${result.distance}\n`;
+                });
+                
+                // Create download link
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.setAttribute('href', url);
+                link.setAttribute('download', 'client_comparison_results.csv');
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+
+            // Reset button click handler
+            resetButton.addEventListener('click', function() {
+                // Clear all inputs
+                ourClientText.value = '';
+                customerClientText.value = '';
+                
+                // Reset counters
+                updateClientCounts();
+                
+                // Hide sections
+                resultsSection.classList.add('d-none');
+                processingSection.classList.add('d-none');
+                errorSection.classList.add('d-none');
+                
+                // Disable export button
+                exportButton.disabled = true;
+                
+                // Clear results
+                compareResults = null;
+                performanceStats.textContent = '';
+            });
+
+            // Helper function to escape HTML
+            function escapeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+
+            // Add sample data functionality for testing
+            function addSampleData() {
+                ourClientText.value = `Acme Corporation
+Microsoft
+Apple Inc.
+Google LLC
+Amazon.com Inc
+FaceBook, Inc
+IBM Corporation
+Tesla Motors
+Walmart Stores
+Target Corporation`;
+
+                customerClientText.value = `ACME Corp
+MicroSoft
+Apple Incorporated
+Googol LLC
+Amazon Inc.
+Facebook Inc
+I.B.M. Corp.
+Telsa Motor Company
+WalMart
+Target Corp.`;
+
+                updateClientCounts();
+            }
+
+            // Add a hidden keyboard shortcut (Alt+S) to add sample data
+            document.addEventListener('keydown', function(e) {
+                if (e.altKey && e.key === 's') {
+                    addSampleData();
+                }
+            });
+            window.addSampleData = addSampleData
+
+            // Initialize
+            updateClientCounts();
+        });
+    </script>
+</body>
+</html>
